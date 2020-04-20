@@ -1,12 +1,13 @@
 import pygame ,Funkcje
 from pygame import MOUSEBUTTONDOWN
 from pygame import K_KP_ENTER
+#inicjacja Pygame oraz ustwienia ekranu
 pygame.init()
 screen = pygame.display.set_mode((370, 600))  # szerosc i wysokosc
 font = pygame.font.SysFont(None, 20)
 pygame.display.set_caption("Kolo fortuny ")  # zmienia nazwe terminala
 
-
+#Zestaw trzcionek oraz kolorów
 DodgerBlue = (60, 199, 255)
 ForestGreen = (34, 139, 34)
 DarkBlue = (00, 0, 0)
@@ -14,34 +15,35 @@ LightBlue = (173, 216, 230)
 Aquamarine = (127, 255, 212)
 cz1 = "Kristen ITC"
 cz2 = "Kristen ITC"
+
+#Funkcja wypisująca tekst na ekran korzytsajaca z pygame
 def napisz_zwykły(tekst, x, y, rozmiar, kolor, czcionka):
     cz = pygame.font.SysFont(czcionka, rozmiar)
     rend = cz.render(tekst, 1, kolor)
     screen.blit(rend, (x, y))
 
+#Czesc programu dziejaca się po losowaniu
 def polosowaniu(b):
     introo = True
-
+    #Program będzie trwał dopóki introo nie zmieni swojej wartości na Fale lub spełni się inny warunek końca tej pętli taki jak Quit lub wywołanie innego ekranu np menu()
     while introo:
-
+        #inicjacja jakiegos wydarzenia
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    introo = False
+            # Funkcje wbudowane w pygame odpowiadające wydarzeniu jakim jest wciśnięcie klawiszów jeśli wcisniemy ESCape program sie zakonczy
+
                 if event.key == pygame.K_ESCAPE:
                     introo = False
                     quit()
+            # Funkcje wbudowane w pygame odpowiadające wydarzeniu jakim jest wciśnięcie myszki
             if event.type == MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
                 print(mx, my)
                 if mx > 79 and mx < 296 and my > 359 and my < 390:
-
-
                         menu()
-
+        #
         screen.fill((128, 128, 128))
 
 
@@ -180,9 +182,6 @@ def wpisz():
                 else:
                     napisz_zwykły(str(tab[i]), xz, 160, 20, DarkBlue, cz2)
                     xz=xz+11
-
-
-
 
         pygame.display.update()
 
