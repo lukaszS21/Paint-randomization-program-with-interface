@@ -1,4 +1,8 @@
 import random
+import datetime
+import kolory
+import pygame
+
 def zamiana(tab):
 
     b = ""
@@ -20,3 +24,4 @@ def losuj(lista):
             print("Wylosowano")
             print(lista[i])
             return lista[i]
+
