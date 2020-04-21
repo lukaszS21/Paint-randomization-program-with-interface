@@ -5,7 +5,7 @@ import datetime
 import random
 from pygame import MOUSEBUTTONDOWN
 from pygame import K_KP_ENTER
-
+#Kuba
 #inicjacja Pygame oraz ustwienia ekranu
 pygame.init()
 screen = pygame.display.set_mode((370, 600))  # szerosc i wysokosc
