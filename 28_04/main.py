@@ -184,32 +184,18 @@ def wpisz():
 def paint():
     draw_on = False
     last_pos = (0, 0)
-    color = (255, 128, 0)
+    color = kolory.black
     radius = 10
-    rozmiar=10
     screen = pygame.display.set_mode((1000, 600))
     save = pygame.image.load('save.png')
     dom = pygame.image.load('home.png')
     kwadracik = pygame.image.load('rectangle.png')
+    minus= pygame.image.load('minus.png')
+    plus = pygame.image.load('plus.png')
     screen.fill((128, 128, 128))
     tryp_rys=False
     p1=polos.poz(800,0,20,600,screen)
-    def roundline(srf, color, start, end, radius=1):
-        dx = end[0] - start[0]
-        dy = end[1] - start[1]
-        distance = max(abs(dx), abs(dy))
-        for i in range(distance):
-            x = int(start[0] + float(i) / distance * dx)
-            y = int(start[1] + float(i) / distance * dy)
-            pygame.draw.circle(srf, color, (x, y), radius)
-    def kwadratl(srf, color, start, end,rozmiar):
-        dx = end[0] - start[0]
-        dy = end[1] - start[1]
-        distance = max(abs(dx), abs(dy))
-        for i in range(distance):
-            x = int(start[0] + float(i) / distance * dx)
-            y = int(start[1] + float(i) / distance * dy)
-            pygame.draw.rect(srf, color, (x,y,rozmiar,rozmiar))
+
     try:
         while True:
             e = pygame.event.wait()
@@ -238,25 +224,32 @@ def paint():
                 if e.pos[0]>=821 and e.pos[0]<853 and e.pos[1]>507 and e.pos[1]<539:
                     tryp_rys=True
 
-                if e.pos[0] < 800:
+                if e.pos[0] < 800-radius:
 
                     if tryp_rys:
-                        pygame.draw.rect(screen,color,(e.pos[0],e.pos[1],10,10))
+                        pygame.draw.rect(screen,color,(e.pos[0],e.pos[1],radius,radius))
                     else:
                         pygame.draw.circle(screen, color, e.pos, radius)
                     draw_on = True
                 #zapis---------------------------------------------------------------
                 if e.pos[0] >= 821 and e.pos[0] < 900 and e.pos[1] > 568 and e.pos[1] < 600:
                     pygame.image.save(screen, "screenshot.jpeg")
+                #zmiana rozmiaru rysowania-------------------------
+                if e.pos[0] >= 821 and e.pos[0] < 853 and e.pos[1] > 447 and e.pos[1] < 507:
+                        radius=radius+10
+                        pygame.draw.rect(screen,kolory.gray, (905,447,100,24))
+                        napisz_zwykły(str(radius), 905, 447, 20, kolory.DarkBlue, kolory.cz2)
+
+
             if e.type == pygame.MOUSEBUTTONUP:
                 draw_on = False
             if e.type == pygame.MOUSEMOTION:
-                if e.pos[0] < 800:
+                if e.pos[0] < 800-radius:
                     if draw_on:
                         if tryp_rys:
-                            kwadratl(screen,color,e.pos,last_pos,10)
+                            Funkcje.kwadratl(screen,color,e.pos,last_pos,radius)
                         else:
-                            roundline(screen, color, e.pos, last_pos, radius)
+                            Funkcje.roundline(screen, color, e.pos, last_pos, radius)
                     last_pos = e.pos
             p1.rysuj()
             polos.ry(920,0,screen,kolory.czarny)
@@ -268,6 +261,11 @@ def paint():
             screen.blit(save, (821, 568))
             screen.blit(dom, (854, 567))
             screen.blit(kwadracik, (821, 507))
+            screen.blit(minus, (821, 447))
+            screen.blit(plus, (861, 447))
+            napisz_zwykły("zmiana rozmiaru", 820, 420, 20, kolory.DarkBlue, kolory.cz2)
+            napisz_zwykły("zmiana pedzla", 820, 480, 20, kolory.DarkBlue, kolory.cz2)
+            napisz_zwykły("menu", 820, 538, 20, kolory.DarkBlue, kolory.cz2)
 
             pygame.display.flip()
 
@@ -308,6 +306,7 @@ def menu():
 
         napisz_zwykły("Stwórz koło ", 110, 200, 30, kolory.DarkBlue, kolory.cz2)
         napisz_zwykły("Menu ", 140, 70, 40, kolory.DarkBlue, kolory.cz2)
+
         napisz_zwykły("Paint", 160, 250, 30, kolory.DarkBlue, kolory.cz2)
 
 
