@@ -186,10 +186,13 @@ def paint():
     last_pos = (0, 0)
     color = (255, 128, 0)
     radius = 10
+    rozmiar=10
     screen = pygame.display.set_mode((1000, 600))
-
+    save = pygame.image.load('save.png')
+    dom = pygame.image.load('home.png')
+    kwadracik = pygame.image.load('rectangle.png')
     screen.fill((128, 128, 128))
-
+    tryp_rys=False
     p1=polos.poz(800,0,20,600,screen)
     def roundline(srf, color, start, end, radius=1):
         dx = end[0] - start[0]
@@ -199,26 +202,60 @@ def paint():
             x = int(start[0] + float(i) / distance * dx)
             y = int(start[1] + float(i) / distance * dy)
             pygame.draw.circle(srf, color, (x, y), radius)
-
+    def kwadratl(srf, color, start, end,rozmiar):
+        dx = end[0] - start[0]
+        dy = end[1] - start[1]
+        distance = max(abs(dx), abs(dy))
+        for i in range(distance):
+            x = int(start[0] + float(i) / distance * dx)
+            y = int(start[1] + float(i) / distance * dy)
+            pygame.draw.rect(srf, color, (x,y,rozmiar,rozmiar))
     try:
         while True:
             e = pygame.event.wait()
             if e.type == pygame.QUIT:
                 raise StopIteration
             if e.type == pygame.MOUSEBUTTONDOWN:
+                #kolory---------------------------------------------------------
                 if e.pos[0]>=820 and e.pos[0]<900 and e.pos[1]>0 and e.pos[1]<80:
-                    print("tu")
+
                     color=kolory.blue
+                if e.pos[0]>=900 and e.pos[0]<990 and e.pos[1]>0 and e.pos[1]<80:
+
+                    color=kolory.black
+                if e.pos[0]>=900 and e.pos[0]<990 and e.pos[1]>100 and e.pos[1]<190:
+
+                    color=kolory.green
+                if e.pos[0] >= 820 and e.pos[0] < 900 and e.pos[1] > 100 and e.pos[1] < 190:
+
+                    color = kolory.red
+                if e.pos[0] >= 820 and e.pos[0] < 900 and e.pos[1] > 200 and e.pos[1] < 290:
+
+                    color = kolory.purple
+                if e.pos[0]>=900 and e.pos[0]<990 and e.pos[1]>200 and e.pos[1]<290:
+
+                    color=kolory.Aquamarine
+                if e.pos[0]>=821 and e.pos[0]<853 and e.pos[1]>507 and e.pos[1]<539:
+                    tryp_rys=True
+
                 if e.pos[0] < 800:
-                    pygame.draw.circle(screen, color, e.pos, radius)
+
+                    if tryp_rys:
+                        pygame.draw.rect(screen,color,(e.pos[0],e.pos[1],10,10))
+                    else:
+                        pygame.draw.circle(screen, color, e.pos, radius)
                     draw_on = True
+                #zapis---------------------------------------------------------------
+                if e.pos[0] >= 821 and e.pos[0] < 900 and e.pos[1] > 568 and e.pos[1] < 600:
+                    pygame.image.save(screen, "screenshot.jpeg")
             if e.type == pygame.MOUSEBUTTONUP:
                 draw_on = False
             if e.type == pygame.MOUSEMOTION:
                 if e.pos[0] < 800:
                     if draw_on:
-                            print("x")
-                            pygame.draw.circle(screen, color, e.pos, radius)
+                        if tryp_rys:
+                            kwadratl(screen,color,e.pos,last_pos,10)
+                        else:
                             roundline(screen, color, e.pos, last_pos, radius)
                     last_pos = e.pos
             p1.rysuj()
@@ -226,6 +263,11 @@ def paint():
             polos.ry(820, 0, screen,kolory.blue)
             polos.ry(920, 100, screen, kolory.green)
             polos.ry(820, 100, screen, kolory.red)
+            polos.ry(820, 200, screen, kolory.purple)
+            polos.ry(920, 200, screen, kolory.Aquamarine)
+            screen.blit(save, (821, 568))
+            screen.blit(dom, (854, 567))
+            screen.blit(kwadracik, (821, 507))
 
             pygame.display.flip()
 
@@ -251,21 +293,22 @@ def menu():
 
             if event.type == MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
-
+                print(mx,my)
                 if mx > 110 and mx < 264 and my > 200 and my < 240:
                     wpisz()
-
+                if mx > 160 and mx < 270 and my > 250 and my < 290:
+                    paint()
         screen.fill((128, 128, 128))
 
 
         now = datetime.datetime.now()
         cza = lambda x: str(x.hour)+":"+str(x.minute)+":"+str(x.second)
         print(cza(now))
-        napisz_zwykły(str(cza(now)), 10, 200, 10, kolory.DarkBlue, kolory.cz2)
+        napisz_zwykły(str(cza(now)), 293, 570, 20, kolory.DarkBlue, kolory.cz2)
 
         napisz_zwykły("Stwórz koło ", 110, 200, 30, kolory.DarkBlue, kolory.cz2)
-        napisz_zwykły("Kolo Decuduje ", 80, 100, 30, kolory.DarkBlue, kolory.cz2)
-        napisz_zwykły("o twoim zyciu", 100, 130, 30, kolory.DarkBlue, kolory.cz2)
+        napisz_zwykły("Menu ", 140, 70, 40, kolory.DarkBlue, kolory.cz2)
+        napisz_zwykły("Paint", 160, 250, 30, kolory.DarkBlue, kolory.cz2)
 
 
         pygame.display.update()
