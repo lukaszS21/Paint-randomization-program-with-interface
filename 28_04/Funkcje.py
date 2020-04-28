@@ -3,6 +3,10 @@ import datetime
 import kolory
 import pygame
 #funckje do koła----------------------------------------------
+def zapisdopliku(nazwa,tab):
+    plik = open(nazwa, 'w')
+    plik.writelines(tab)
+    plik.close()
 def zamiana(tab):
 
     b = ""
@@ -14,8 +18,17 @@ def zamiana(tab):
         else:
             b = b + tab[i]
     print(tab2)
-    return tab2
 
+    return tab2
+def odczytzpliku(nazwa):
+    tab=[]
+    plik=open(nazwa,'r')
+    znak=plik.read(1)
+    tab.append(znak)
+    while znak:
+        znak=plik.read(1)
+        tab.append(znak)
+    return tab
 def losuj(lista):
     x=random.randint(0,len(lista)-1)
     print(x)

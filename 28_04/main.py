@@ -55,7 +55,7 @@ def wpisz():
     tab=[]
     slowa=[]
     v=0
-
+    tym=[]
     b=""
     while introo:
 
@@ -132,8 +132,6 @@ def wpisz():
 
                     for i in range(0, len(tab)):
                         slowa.append(tab[i])
-                        tab2=list(filter(Funkcje.parzysta,slowa))
-                        print(tab2)
                     slowa.append(',')
                     tab.clear()
 
@@ -143,28 +141,40 @@ def wpisz():
                 mx, my = pygame.mouse.get_pos()
                 print(mx, my)
                 if mx > 156 and mx < 231 and my > 363 and my < 400:
-                    if len(slowa)<=1:
 
-                        wpisz()
-                    print(slowa)
-                    b=Funkcje.losuj(Funkcje.zamiana(slowa))
-                    print(slowa)
+                    if len(tym) >= 1:
+                        b = Funkcje.losuj(Funkcje.zamiana(slowa))
+                    else:
+
+                        b = Funkcje.losuj(Funkcje.zamiana(slowa))
                     polosowaniu(b)
             if event.type == MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
 
                 if mx > 120 and mx < 266 and my > 341 and my < 362:
                             for i in range(0, len(tab)):
+
                                 slowa.append(tab[i])
+
                             slowa.append(',')
+                            print(slowa)
                             tab.clear()
+                #zapisuje słowa do pliku-----------------------
+                if mx > 110 and mx < 288 and my > 390 and my < 430:
+                    Funkcje.zapisdopliku("los.txt", slowa)
+                #odczyt z pliku-------------------------------
+                if mx > 100 and mx < 310 and my > 430 and my < 460:
+                    slowa=Funkcje.odczytzpliku("los.txt")
+
 
 
         screen.fill((128, 128, 128))
-
         napisz_zwykły("Podaj slowo  ", 110, 100, 30, kolory.DarkBlue, kolory.cz2)
         napisz_zwykły("Losuj  ", 160, 360, 30, kolory.DarkBlue, kolory.cz2)
         napisz_zwykły("Zatwiedz  ", 120, 330, 30, kolory.DarkBlue, kolory.cz2)
+        napisz_zwykły("zapisz slowa", 110, 390, 30, kolory.DarkBlue, kolory.cz2)
+        napisz_zwykły("odczytaj slowa", 100, 420, 30, kolory.DarkBlue, kolory.cz2)
+
         xz=100
         xz2=100
         xz3=100
@@ -204,28 +214,21 @@ def paint():
             if e.type == pygame.MOUSEBUTTONDOWN:
                 #kolory---------------------------------------------------------
                 if e.pos[0]>=820 and e.pos[0]<900 and e.pos[1]>0 and e.pos[1]<80:
-
                     color=kolory.blue
                 if e.pos[0]>=900 and e.pos[0]<990 and e.pos[1]>0 and e.pos[1]<80:
-
                     color=kolory.black
                 if e.pos[0]>=900 and e.pos[0]<990 and e.pos[1]>100 and e.pos[1]<190:
-
                     color=kolory.green
                 if e.pos[0] >= 820 and e.pos[0] < 900 and e.pos[1] > 100 and e.pos[1] < 190:
-
                     color = kolory.red
                 if e.pos[0] >= 820 and e.pos[0] < 900 and e.pos[1] > 200 and e.pos[1] < 290:
-
                     color = kolory.purple
                 if e.pos[0]>=900 and e.pos[0]<990 and e.pos[1]>200 and e.pos[1]<290:
-
                     color=kolory.Aquamarine
                 if e.pos[0]>=821 and e.pos[0]<853 and e.pos[1]>507 and e.pos[1]<539:
                     tryp_rys=True
-
+                #rysowanie gdy sie nacisnie sie myszke--------------------------------------
                 if e.pos[0] < 800-radius:
-
                     if tryp_rys:
                         pygame.draw.rect(screen,color,(e.pos[0],e.pos[1],radius,radius))
                     else:
@@ -234,13 +237,21 @@ def paint():
                 #zapis---------------------------------------------------------------
                 if e.pos[0] >= 821 and e.pos[0] < 900 and e.pos[1] > 568 and e.pos[1] < 600:
                     pygame.image.save(screen, "screenshot.jpeg")
+                #powrót do menu
+                    if e.pos[0] >= 854 and e.pos[0] < 896 and e.pos[1] > 567 and e.pos[1] < 600:
+                        menu()
                 #zmiana rozmiaru rysowania-------------------------
                 if e.pos[0] >= 821 and e.pos[0] < 853 and e.pos[1] > 447 and e.pos[1] < 507:
+                        if radius >=10:
+                            radius=radius-10
+                            pygame.draw.rect(screen,kolory.gray, (905,447,100,24))
+                            napisz_zwykły(str(radius), 905, 447, 20, kolory.DarkBlue, kolory.cz2)
+                if e.pos[0] >= 861 and e.pos[0] < 893 and e.pos[1] > 447 and e.pos[1] < 507:
                         radius=radius+10
                         pygame.draw.rect(screen,kolory.gray, (905,447,100,24))
                         napisz_zwykły(str(radius), 905, 447, 20, kolory.DarkBlue, kolory.cz2)
 
-
+            #gdy przytrzymana myszka ------------------------------------
             if e.type == pygame.MOUSEBUTTONUP:
                 draw_on = False
             if e.type == pygame.MOUSEMOTION:
@@ -251,6 +262,7 @@ def paint():
                         else:
                             Funkcje.roundline(screen, color, e.pos, last_pos, radius)
                     last_pos = e.pos
+            #rysowanie ikon itp---------------------------------------
             p1.rysuj()
             polos.ry(920,0,screen,kolory.czarny)
             polos.ry(820, 0, screen,kolory.blue)
