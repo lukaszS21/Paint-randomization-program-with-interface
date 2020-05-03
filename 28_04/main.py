@@ -5,7 +5,6 @@ import datetime
 import random
 from pygame import MOUSEBUTTONDOWN
 from pygame import K_KP_ENTER
-#Kuba
 #inicjacja Pygame oraz ustwienia ekranu
 pygame.init()
 screen = pygame.display.set_mode((370, 600))  # szerosc i wysokosc
@@ -46,7 +45,7 @@ def polosowaniu(b):
 
 
         napisz_zwykły("Wylosowano", 80, 100, 30, kolory.DarkBlue, kolory.cz2)
-        napisz_zwykły(str(b), 80, 130, 30, kolory.DarkBlue, kolory.cz2)
+        napisz_zwykły(str(b), 40, 130, 20, kolory.DarkBlue, kolory.cz2)
         napisz_zwykły("Wroc do menu", 80, 350, 30, kolory.DarkBlue, kolory.cz2)
         pygame.display.update()
 def wpisz():
@@ -141,12 +140,11 @@ def wpisz():
                 mx, my = pygame.mouse.get_pos()
                 print(mx, my)
                 if mx > 156 and mx < 231 and my > 363 and my < 400:
+                    if len(slowa)<1:
+                        wpisz()
 
-                    if len(tym) >= 1:
-                        b = Funkcje.losuj(Funkcje.zamiana(slowa))
-                    else:
 
-                        b = Funkcje.losuj(Funkcje.zamiana(slowa))
+                    b = Funkcje.losuj(Funkcje.zamiana(slowa))
                     polosowaniu(b)
             if event.type == MOUSEBUTTONDOWN:
                 mx, my = pygame.mouse.get_pos()
@@ -313,7 +311,6 @@ def menu():
 
         now = datetime.datetime.now()
         cza = lambda x: str(x.hour)+":"+str(x.minute)+":"+str(x.second)
-        print(cza(now))
         napisz_zwykły(str(cza(now)), 293, 570, 20, kolory.DarkBlue, kolory.cz2)
 
         napisz_zwykły("Stwórz koło ", 110, 200, 30, kolory.DarkBlue, kolory.cz2)
